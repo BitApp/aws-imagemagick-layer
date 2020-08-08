@@ -1,0 +1,13 @@
+{
+  "name": "watermark-lambda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^3.2.0",
+    "aws-sdk": "^2.729.0",
+    "gm": "^1.23.1",
+    "loglevel": "^1.3.1",
+    "object-assign": "^3.0.0"
+  }
+}
