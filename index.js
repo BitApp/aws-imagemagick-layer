@@ -1,4 +1,5 @@
 "use strict";
+const https = require("https");
 var LambdaWatermark = require("./lib/lambdaWatermark");
 
 var options = {
@@ -11,25 +12,17 @@ var options = {
   watermarkImagePath: "./bitapp-white.png"
 };
 
-exports.handler = function(event, context) {
-  // add watermark
-  new LambdaWatermark(options)(event, context);
-  // call convert
+exports.handler = function(event, context, callback) {
   const srcKey = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, " "));
-  return new Promise((resolve, reject) => {
-    const req = https.request({
-      host: "test-justfans.bitapp.net",
-      path: "/api/media/convert/" + srcKey
-    }, () => {
-      const response = {
-        statusCode: 200,
-        body: JSON.stringify("JobDone!"),
-      };
-      resolve(response);
-    });
-
-    req.on("error", (e) => {
-      reject(e.message);
-    });
+  if (srcKey.split("/")[0] === "image") {
+    // add watermark
+    new LambdaWatermark(options)(event, context);
+  }
+  // call convert
+  https.get(`https://test-justfans.bitapp.net/api/media/convert?key=${encodeURIComponent(srcKey)}`,
+  (res) => {
+    callback(null, res.statusCode);
+  }).on("error", (e) => {
+    callback(Error(e.message));
   });
 };
