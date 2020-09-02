@@ -12,10 +12,24 @@ var options = {
 };
 
 exports.handler = function(event, context) {
+  // add watermark
   new LambdaWatermark(options)(event, context);
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify('WaterMark added!'),
-  };
-  return response;
+  // call convert
+  const srcKey = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, " "));
+  return new Promise((resolve, reject) => {
+    const req = https.request({
+      host: "test-justfans.bitapp.net",
+      path: "/api/media/convert/" + srcKey
+    }, () => {
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify("JobDone!"),
+      };
+      resolve(response);
+    });
+
+    req.on("error", (e) => {
+      reject(e.message);
+    });
+  });
 };
