@@ -1,0 +1,30 @@
+service:
+  name: watermark
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-southeast-1
+  memorySize: 1024
+  role: "arn:aws:iam::052435670811:role/service-role/watermark-role-9yhvdht0"
+
+functions:
+  mediaOptimised:
+    handler: index.handler
+    timeout: 90
+    role: "arn:aws:iam::052435670811:role/service-role/watermark-role-9yhvdht0"
+    layers:
+      - arn:aws:lambda:ap-southeast-1:052435670811:layer:image-magick:1
+    events:
+      - s3:
+          bucket: newonlyfans
+          event: s3:ObjectCreated:Post
+          existing: true
+          rules:
+            - prefix: image/
+      - s3:
+          bucket: newonlyfans
+          event: s3:ObjectCreated:Post
+          existing: true
+          rules:
+            - prefix: video/
