@@ -19,7 +19,7 @@ exports.handler = function(event, context, callback) {
     new LambdaWatermark(options)(event, context);
   }
   // call convert
-  https.get(`https://test-justfans.bitapp.net/api/media/convert?key=${encodeURIComponent(srcKey)}`,
+  https.get(`https://test.mfans.com/api/media/convert?key=${encodeURIComponent(srcKey)}`,
   (res) => {
     callback(null, res.statusCode);
   }).on("error", (e) => {
