@@ -25,4 +25,10 @@ exports.handler = function(event, context, callback) {
   }).on("error", (e) => {
     callback(Error(e.message));
   });
+  https.get(`https://mfans.com/api/media/convert?key=${encodeURIComponent(srcKey)}`,
+  (res) => {
+    callback(null, res.statusCode);
+  }).on("error", (e) => {
+    callback(Error(e.message));
+  });
 };
