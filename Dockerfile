@@ -7,7 +7,7 @@ RUN npm install
 
 COPY lib ./lib
 COPY index.js index.js
-COPY bitapp-white.png bitapp-white.png
+COPY logo.png logo.png
 COPY serveless.yaml serverless.yaml
 
 CMD ./node_modules/.bin/serverless deploy

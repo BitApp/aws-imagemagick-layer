@@ -9,7 +9,7 @@ var options = {
   getDistKey: (srcKey, opt) => {
     return opt.destPath + srcKey.replace(opt.srcPath, "")
   },
-  watermarkImagePath: "./bitapp-white.png"
+  watermarkImagePath: "./logo.png"
 };
 
 exports.handler = function(event, context, callback) {
