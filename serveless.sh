@@ -1,5 +1,6 @@
-export AWS_ACCESS_KEY_ID="AKIAIJWSPJGSDUARKOVQ"
-export AWS_SECRET_ACCESS_KEY="wTv2Zx0IQEAvqQf3pr66CAGSHArEeimOLCxVEv3z"
+# change to your access key
+# export AWS_ACCESS_KEY_ID=""
+# export AWS_SECRET_ACCESS_KEY=""
 
 docker build -t graphics-layer .
 docker run --rm -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY graphics-layer
