@@ -1,30 +1,20 @@
 service:
-  name: watermark
+  name: graphics-layer
 
 provider:
   name: aws
   runtime: nodejs12.x
   region: ap-southeast-1
-  memorySize: 1024
-  role: "arn:aws:iam::052435670811:role/service-role/watermark-role-9yhvdht0"
 
-functions:
-  mediaOptimised:
-    handler: index.handler
-    timeout: 90
-    role: "arn:aws:iam::052435670811:role/service-role/watermark-role-9yhvdht0"
-    layers:
-      - arn:aws:lambda:ap-southeast-1:052435670811:layer:image-magick:1
-    events:
-      - s3:
-          bucket: newonlyfans
-          event: s3:ObjectCreated:Post
-          existing: true
-          rules:
-            - prefix: image/
-      - s3:
-          bucket: newonlyfans
-          event: s3:ObjectCreated:Post
-          existing: true
-          rules:
-            - prefix: video/
+layers:
+  graphics-layer:
+    path: layer # required, path to layer contents on disk
+    name: graphics-layer # optional, Deployed Lambda layer name
+    description: provide ImageMagick and GraphicsMagick # optional, Description to publish to AWS
+    compatibleRuntimes: # optional, a list of runtimes this layer is compatible with
+      - nodejs12.x
+    licenseInfo: GPLv3 # optional, a string specifying license information
+    # allowedAccounts: # optional, a list of AWS account IDs allowed to access this layer.
+    #   - '*'
+    # note: uncommenting this will give all AWS users access to this layer unconditionally.
+    retain: false # optional, false by default. If true, layer versions are not deleted as new ones are created
